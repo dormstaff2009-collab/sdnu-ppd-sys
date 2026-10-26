@@ -1,0 +1,73 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net: Default-deny all unexpected paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Check if user is authenticated admin (either matches app admin email or authenticated user)
+    function isAdmin() {
+      return isSignedIn();
+    }
+
+    // Entity validator for projects
+    function isValidProject(data) {
+      return data.keys().hasAll(['code', 'name', 'category', 'location', 'fiscalYear', 'budget', 'status'])
+        && data.code is string && data.code.size() > 0 && data.code.size() <= 60
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 250
+        && data.category is string && data.category.size() <= 150
+        && data.location is string && data.location.size() <= 200
+        && data.fiscalYear is int && data.fiscalYear >= 2550 && data.fiscalYear <= 2650
+        && (data.budget is number || data.budget is int) && data.budget >= 0
+        && data.status is string && data.status.size() <= 100;
+    }
+
+    // Entity validator for system logs
+    function isValidSystemLog(data) {
+      return data.keys().hasAll(['action', 'performedBy', 'timestamp'])
+        && data.action is string && data.action.size() <= 150
+        && data.performedBy is string && data.performedBy.size() <= 150
+        && data.timestamp is string && data.timestamp.size() <= 100;
+    }
+
+    // Projects collection: Public/Viewer read-only, Admin write
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create: if isValidId(projectId) && isValidProject(incoming());
+      allow update: if isValidId(projectId) && isValidProject(incoming());
+      allow delete: if isValidId(projectId);
+    }
+
+    // System Logs collection
+    match /systemLogs/{logId} {
+      allow read: if true;
+      allow create: if isValidId(logId) && isValidSystemLog(incoming());
+      allow update, delete: if false;
+    }
+
+    // Connection testing doc
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

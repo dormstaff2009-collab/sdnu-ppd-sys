@@ -1,0 +1,152 @@
+{
+  "entities": {
+    "projects": {
+      "title": "Staff Dormitory Development Project",
+      "description": "โครงการพัฒนาหอพักบุคลากร มหาวิทยาลัยนเรศวร (Staff Dormitory NU)",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "รหัสโครงการที่ไม่ซ้ำกัน"
+        },
+        "code": {
+          "type": "string",
+          "description": "รหัสย่อโครงการ เช่น SDNU-67-01",
+          "maxLength": 30
+        },
+        "name": {
+          "type": "string",
+          "description": "ชื่อโครงการพัฒนาหอพักบุคลากร",
+          "maxLength": 200
+        },
+        "category": {
+          "type": "string",
+          "description": "หมวดหมู่งาน: ปรับปรุงและซ่อมบำรุง, ภูมิทัศน์และสิ่งแวดล้อม, ความปลอดภัยและสมาร์ทดอร์ม",
+          "maxLength": 100
+        },
+        "location": {
+          "type": "string",
+          "description": "พื้นที่ดำเนินงาน (ข้อความคงที่ อาคาร มน.นิเวศ)",
+          "maxLength": 150
+        },
+        "fiscalYear": {
+          "type": "integer",
+          "description": "ปีงบประมาณ พ.ศ. ที่จะดำเนินการ (กรอกข้อมูลเอง เช่น 2568)"
+        },
+        "budget": {
+          "type": "number",
+          "description": "งบประมาณที่ได้รับอนุมัติ (บาท)"
+        },
+        "disbursedBudget": {
+          "type": "number",
+          "description": "งบประมาณที่เบิกจ่ายแล้ว (บาท)"
+        },
+        "fundingSource": {
+          "type": "string",
+          "description": "แหล่งที่มาของงบประมาณ: งปม.รายได้หอพักบุคลากร, งปม.แผ่นดิน, งปม.รายได้, งปม.อื่นๆ",
+          "maxLength": 100
+        },
+        "status": {
+          "type": "string",
+          "description": "สถานะการดำเนินงาน",
+          "enum": [
+            "ศึกษาความเหมาะสม (Feasibility)",
+            "ออกแบบและประเมิณราคา (Cost Estimation)",
+            "เสนอขออนุมัติงบประมาณ (Proposed)",
+            "จัดทำราคากลาง (Reference Price)",
+            "เสนอราคาจากผู้รับจ้าง (Quotation)",
+            "จัดซื้อจัดจ้าง (Procurement)",
+            "กำลังก่อสร้าง/ปรับปรุง (In Progress)",
+            "ตรวจรับ/ส่งมอบแล้ว (Completed)",
+            "ชะลอการดำเนินการ (On Hold)",
+            "ไม่ได้รับอนุมัติงบประมาณ (Budget was not approved)"
+          ]
+        },
+        "progressPercent": {
+          "type": "number",
+          "description": "เปอร์เซ็นต์ความคืบหน้ารวม (0-100)"
+        },
+        "targetStartDate": {
+          "type": "string",
+          "description": "วันที่เริ่มต้นตามแผน"
+        },
+        "targetEndDate": {
+          "type": "string",
+          "description": "วันที่สิ้นสุดตามแผน"
+        },
+        "responsibleUnit": {
+          "type": "string",
+          "description": "หน่วยงานหรือผู้รับผิดชอบโครงการ",
+          "maxLength": 150
+        },
+        "description": {
+          "type": "string",
+          "description": "รายละเอียดวัตถุประสงค์และขอบเขตงาน",
+          "maxLength": 2000
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "เวลาที่สร้างบันทึก"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "เวลาที่แก้ไขล่าสุด"
+        }
+      },
+      "required": [
+        "code",
+        "name",
+        "category",
+        "location",
+        "fiscalYear",
+        "budget",
+        "status"
+      ]
+    },
+    "systemLogs": {
+      "title": "System Audit Log",
+      "description": "บันทึกประวัติการเปลี่ยนแปลงข้อมูลโครงการ",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "projectId": {
+          "type": "string"
+        },
+        "projectCode": {
+          "type": "string"
+        },
+        "performedBy": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string",
+          "maxLength": 500
+        }
+      },
+      "required": ["action", "performedBy", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/projects/{projectId}": {
+      "schema": {
+        "$ref": "#/entities/projects"
+      },
+      "description": "คอลเลกชันโครงการพัฒนาหอพักบุคลากร"
+    },
+    "/systemLogs/{logId}": {
+      "schema": {
+        "$ref": "#/entities/systemLogs"
+      },
+      "description": "บันทึกประวัติการดำเนินงานโครงการ"
+    }
+  }
+}

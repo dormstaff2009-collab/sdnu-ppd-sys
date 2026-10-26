@@ -1,0 +1,6 @@
+{
+  "name": "Staff Dormitory NU Development Planning System",
+  "description": "ระบบวางแผนโครงการพัฒนาหอพักบุคลากร (SDNU-PPD-SYS) พร้อมแดชบอร์ดสรุปผลแผนภูมิวงกลมและระบบควบคุมสิทธิ์ผู้ใช้",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
