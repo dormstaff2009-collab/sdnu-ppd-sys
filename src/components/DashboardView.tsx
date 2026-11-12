@@ -41,6 +41,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   'ปรับปรุงและซ่อมบำรุง': '#0284c7',
   'ภูมิทัศน์และสิ่งแวดล้อม': '#10b981',
   'ความปลอดภัยและสมาร์ทดอร์ม': '#8b5cf6',
+  'พัฒนาระบบจัดการหอพักบุคลากร': '#f59e0b',
 };
 
 const STATUS_COLORS: Record<string, string> = {
@@ -61,6 +62,7 @@ const FUNDING_COLORS: Record<string, string> = {
   'งปม.แผ่นดิน': '#1e3a8a',
   'งปม.รายได้': '#b45309',
   'งปม.อื่นๆ': '#6d28d9',
+  'ไม่ใช้งบประมาณ': '#64748b',
 };
 
 export const DashboardView: React.FC<DashboardViewProps> = ({

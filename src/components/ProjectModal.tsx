@@ -13,6 +13,7 @@ const CATEGORIES: ProjectCategory[] = [
   'ปรับปรุงและซ่อมบำรุง',
   'ภูมิทัศน์และสิ่งแวดล้อม',
   'ความปลอดภัยและสมาร์ทดอร์ม',
+  'พัฒนาระบบจัดการหอพักบุคลากร',
 ];
 
 const STATUSES: ProjectStatus[] = [
@@ -33,6 +34,7 @@ const FUNDING_SOURCES: FundingSource[] = [
   'งปม.แผ่นดิน',
   'งปม.รายได้',
   'งปม.อื่นๆ',
+  'ไม่ใช้งบประมาณ',
 ];
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({
